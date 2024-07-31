@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta SAP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta de RNC</h1>
+        <form method="POST">
+            <label for="numero_rnc">Número RNC:</label>
+            <input type="text" id="numero_rnc" name="numero_rnc" required>
+            <button type="submit">Consultar</button>
+        </form>
+        {% if response %}
+            <h2>Resposta:</h2>
+            <pre>{{ response }}</pre>
+            <form method="GET" action="{{ url_for('formulario') }}">
+                <button type="submit">Ver Formulário</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

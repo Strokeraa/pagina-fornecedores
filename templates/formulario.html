@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Não Conformidade (RNC)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: white;
+            border: 1px solid #000;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        .header img {
+            width: 200px;
+        }
+        .center {
+            text-align: center;
+            flex: 1;
+            font-weight: bold;
+            font-size: 18px;
+            margin-left: -160px;
+        }
+        .instructions {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .contact, .details, .highlight, .description, .reincidence, .actions {
+            margin: 10px 0;
+        }
+        .highlight {
+            background-color: #e0e0e0;
+            padding: 10px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        .actions div {
+            width: 48%;
+        }
+        .quantity {
+            display: flex;
+            justify-content: space-between;
+        }
+        .quantity div {
+            width: 48%;
+        }
+        .sabo {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<form method="POST" action="{{ url_for('salvar_respostas') }}">
+    <div class="container">
+        <div class="header">
+            <img class="sabo" src="{{ url_for('static', filename='assets/sabo.png') }}" alt="Logo" />
+            <div class="center">
+                <p>Relatório de Não Conformidade (RNC)</p>
+                <p id="notif-no">No: <strong> {{ data.no }} </strong></p>
+                <p id="notif-date">Data: <strong>{{ data.data }} </strong></p>
+            </div>
+        </div>
+        <div class="contact">
+            <p id="vendor-name">Fornecedor: <strong>{{ data.fornecedor }}</strong></p>
+            <p id="contact-sabo">Contato Sabó: <strong>{{ data.contato }}</strong></p>
+        </div>
+
+        <div class="details">
+            <p id="material-desc">Material: <strong>{{ data.material }}</strong></p>
+            <p id="material-code">Código: <strong>{{ data.codigo }}</strong></p>
+            <p>Lote/NF:<strong>{{data.lote}}</strong></p>
+        </div>
+
+        <div class="highlight">
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    <p><strong>Origem da Reclamação:</strong></p>
+                    <p>Qualidade do Produto/Serviço <input type="checkbox" name="origem_reclamacao_qualidade"></p>
+                    <p>Pontualidade na Entrega <input type="checkbox" name="origem_reclamacao_pontualidade"></p>
+                    <p>Logística <input type="checkbox" name="origem_reclamacao_logistica"></p>
+                </div>
+                <div style="flex: 1;">
+                    <p><strong>1.1) Local:</strong></p>
+                    <p>Recebimento <input type="checkbox" name="local_recebimento"></p>
+                    <p>Produção <input type="checkbox" name="local_producao"></p>
+                    <p>Cliente <input type="checkbox" name="local_cliente"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <p><strong>Descrição do problema / Não conformidade:</strong> <strong>{{ data.descricao_problema }}</strong></p>
+        </div>
+
+        <div class="reincidence">
+            <p>Reincidência:</p>
+            <p>Sim <input type="checkbox" name="reincidencia_sim"></p>
+            <p>Não <input type="checkbox" name="reincidencia_nao"></p>
+            <p><strong>RNC's relacionados:</strong></p>
+        </div>
+
+        <div class="actions">
+            <div>
+                <p><strong>Emitido por:</strong></p>
+                <p>Depto.: </p>
+                <p>Data: </p>
+            </div>
+            <div>
+                <p>Ação de Contenção (prazo 24 horas): </p>
+            </div>
+        </div>
+
+        <div class="quantity">
+            <div>
+                <p id="quant-complaint">4.1) Quantidade interditada: <strong>{{ data.quantidade_interditada }} </strong> </p>
+                <p>Seleção 100%: SIM <input type="checkbox" name="selecao_100_sim"> NÃO <input type="checkbox" name="selecao_100_nao"></p>
+            </div>
+            <div>
+                <p>Quantidade reprovada:</p>
+                <p>Observação:</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div>
+            <p style="font-weight: bold;">5.1) Causa raiz do problema (Root cause of the problem)</p>
+            <p>Por que o Processo de Manufatura GEROU o defeito?</p>
+            <p>(Why did the manufacturing process cause the defect?)</p>
+        </div>
+        <div>
+            <p style="font-weight: bold;">5 porquês (5 Whys):</p>
+            <input type="text" name="why1_1" placeholder="1. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+            <input type="text" name="why2_1" placeholder="2. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+            <input type="text" name="why3_1" placeholder="3. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+            <input type="text" name="why4_1" placeholder="4. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+            <input type="text" name="why5_1" placeholder="5. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+        </div>
+        <div>
+            <p style="font-weight: bold;">6.1) Plano de ações corretivas: (Corrective Action Plan)</p>
+            <div style="display: flex;">
+                <div style="flex: 1; margin-right: 10px;">
+                    <p style="font-weight: bold;">Ações Corretivas (Corrective Action)</p>
+                    <input type="text" name="acao1_1" placeholder="1. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao2_1" placeholder="2. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao3_1" placeholder="3. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao4_1" placeholder="4. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao5_1" placeholder="5. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div style="flex: 1;">
+                    <div style="margin-left: -280px;">
+                    <p style="font-weight: bold;">Responsável (Owner)</p>
+                    <input type="text" name="owner1_1" placeholder="1. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner2_1" placeholder="2. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner3_1" placeholder="3. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner4_1" placeholder="4. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner5_1" placeholder="5. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div style="margin-top: -180px; margin-left: 40px;">
+                    <p style="font-weight: bold;">Prazo (Due Date)</p>
+                    <input type="text" name="due_date1_1" placeholder="1. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date2_1" placeholder="2. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date3_1" placeholder="3. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date4_1" placeholder="4. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date5_1" placeholder="5. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="container">
+                    <div>
+                    <p style="font-weight: bold;">5.2) Causa raiz do problema (Root cause of the problem)</p>
+                    <p>Por que o Processo de Qualidade não DETECTOU E CONTEVE o problema?  </p>
+                    <p>(Why did the quality process not detect and contain the defect?)</p>
+                    </div>
+                    <div>
+                    <p style="font-weight: bold;">5 porquês (5 Whys):</p>
+                    <input type="text" name="why1_2" placeholder="1. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why2_2" placeholder="2. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why3_2" placeholder="3. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why4_2" placeholder="4. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why5_2" placeholder="5. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div>
+                    <p style="font-weight: bold;">6.2) Plano de ações corretivas: (Corrective Action Plan)</p>
+                    <div style="display: flex;">
+                    <div style="flex: 1; margin-right: 10px;">
+                    <p style="font-weight: bold;">Ações Corretivas (Corrective Action)</p>
+                    <input type="text" name="acao1_2" placeholder="1. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao2_2" placeholder="2. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao3_2" placeholder="3. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao4_2" placeholder="4. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="acao5_2" placeholder="5. Ação (Action)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div style="flex: 1;">
+                    <div style="margin-left: -280px;">
+                    <p style="font-weight: bold;">Responsável (Owner)</p>
+                    <input type="text" name="owner1_2" placeholder="1. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner2_2" placeholder="2. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner3_2" placeholder="3. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner4_2" placeholder="4. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="owner5_2" placeholder="5. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div style="margin-top: -180px; margin-left: 40px;">
+                    <p style="font-weight: bold;">Prazo (Due Date)</p>
+                    <input type="text" name="due_date1_2" placeholder="1. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date2_2" placeholder="2. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date3_2" placeholder="3. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date4_2" placeholder="4. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="due_date5_2" placeholder="5. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="container">
+                    <div>
+                    <p style="font-weight: bold;">5.3) Causa raiz do problema (Root cause of the problem)</p>
+                    <p>Por que o Planejamento de Processo não PREVIU o defeito?</p>
+                    <p>(Why did the Planning process not foresee the defect?)</p>
+                    </div>
+                    <div>
+                    <p style="font-weight: bold;">5 porquês (5 Whys):</p>
+                    <input type="text" name="why1_3" placeholder="1. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why2_3" placeholder="2. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why3_3" placeholder="3. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why4_3" placeholder="4. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    <input type="text" name="why5_3" placeholder="5. Por que? (Why?)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div>
+                    <p style="font-weight: bold;">6.3 Plano de ações corretivas: (Corrective Action Plan)</p>
+                    <div style="display: flex;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <p style="font-weight: bold;">Ações Corretivas (Corrective Action)</p>
+                            <input type="text" name="acao1_3" placeholder="1. Ação (Action)" style="margin-bottom: 5px;"><br>
+                            <input type="text" name="acao2_3" placeholder="2. Ação (Action)" style="margin-bottom: 5px;"><br>
+                            <input type="text" name="acao3_3" placeholder="3. Ação (Action)" style="margin-bottom: 5px;"><br>
+                            <input type="text" name="acao4_3" placeholder="4. Ação (Action)" style="margin-bottom: 5px;"><br>
+                            <input type="text" name="acao5_3" placeholder="5. Ação (Action)" style="margin-bottom: 5px;"><br>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="margin-left: -280px;">
+                                <p style="font-weight: bold;">Responsável (Owner)</p>
+                                <input type="text" name="owner1_3" placeholder="1. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="owner2_3" placeholder="2. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="owner3_3" placeholder="3. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="owner4_3" placeholder="4. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="owner5_3" placeholder="5. Responsável (Owner)" style="margin-bottom: 5px;"><br>
+                            </div>
+                            <div style="margin-top: -180px; margin-left: 40px;">
+                                <p style="font-weight: bold;">Prazo (Due Date)</p>
+                                <input type="text" name="due_date1_3" placeholder="1. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                                <input type="texte" name="due_date2_3" placeholder="2. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="due_date3_3" placeholder="3. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="due_date4_3" placeholder="4. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                                <input type="text" name="due_date5_3" placeholder="5. Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="container">
+                <p style="font-weight: bold;">7) Avaliação da eficácia das ações tomadas (uso Sabó):</p>
+                <p>- (Action Plan effectiveness (Sabó use only))</p>
+                <input type="text" name="avaliacao_eficacia" placeholder="7. Avaliação de eficácia" style="margin-bottom: 5px;"><br>
+        
+                <p style="font-weight: bold;">7.1) Lotes recebidos após a implementação das ações (uso Sabó):</p>
+                <div style="display: flex;">
+                    <div style="flex: 1; margin-right: 10px;">
+                        <p style="font-weight: bold;">Responsável (Responsible)</p>
+                        <input type="text" name="responsavel_lotes" placeholder="Responsável (Responsible)" style="margin-bottom: 5px;"><br>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="margin-left: -280px;">
+                            <p style="font-weight: bold;">Depto.:</p>
+                            <input type="text" name="departamento_lotes" placeholder="Departamento" style="margin-bottom: 5px;"><br>
+                        </div>
+                        <div style="margin-top: -75px; margin-left: 40px;">
+                            <p style="font-weight: bold;">Prazo (Due Date)</p>
+                            <input type="date" name="prazo_lotes" placeholder="Prazo (Due Date)" style="margin-bottom: 5px;"><br>
+                        </div>
+                    </div>
+                </div>
+        
+                <button type="submit">Enviar Respostas</button> 
+            </div>
+        </form>
+        </body>
+        </html>
