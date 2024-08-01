@@ -83,7 +83,7 @@ def salvar_respostas():
     # Convertendo o dicionário em uma string JSON formatada
     respostas_str = json.dumps(respostas, indent=4, ensure_ascii=False, default=custom_converter)
 
-    # Salvando as respostas em um arquivo de texto
+    # Salvando as respostas em um arquivo de textoa
     with open('resposta_final.txt', 'w', encoding='utf-8') as file:
         file.write(respostas_str)
 
